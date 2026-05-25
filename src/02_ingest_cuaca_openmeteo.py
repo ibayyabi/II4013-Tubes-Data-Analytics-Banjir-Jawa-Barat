@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -20,8 +21,8 @@ REF_PATH = Path("data/reference/master_wilayah_jabar.csv")
 OUT_DIR = Path("data/raw/cuaca_raw")
 CACHE_DIR = Path("data/raw/.cache")
 
-START_DATE = "2012-01-01"
-END_DATE = "2023-12-31"
+DEFAULT_START_DATE = "2012-01-01"
+DEFAULT_END_DATE = "2025-12-31"
 ENDPOINT = "https://archive-api.open-meteo.com/v1/archive"
 DAILY_VARS = [
     "precipitation_sum",
@@ -50,12 +51,12 @@ def make_session() -> requests.Session:
     )
 
 
-def fetch_one(session: requests.Session, row: pd.Series) -> dict[str, Any]:
+def fetch_one(session: requests.Session, row: pd.Series, start_date: str, end_date: str) -> dict[str, Any]:
     params = {
         "latitude": float(row["latitude"]),
         "longitude": float(row["longitude"]),
-        "start_date": START_DATE,
-        "end_date": END_DATE,
+        "start_date": start_date,
+        "end_date": end_date,
         "daily": DAILY_VARS,
         "hourly": HOURLY_VARS,
         "timezone": "Asia/Jakarta",
@@ -79,15 +80,25 @@ def fetch_one(session: requests.Session, row: pd.Series) -> dict[str, Any]:
         "tipe": row["tipe"],
         "latitude_request": float(row["latitude"]),
         "longitude_request": float(row["longitude"]),
-        "periode_start": START_DATE,
-        "periode_end": END_DATE,
+        "periode_start": start_date,
+        "periode_end": end_date,
         "daily_variables_requested": DAILY_VARS,
         "hourly_variables_requested": HOURLY_VARS,
     }
     return payload
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Fetch Open-Meteo archive data for West Java.")
+    parser.add_argument("--start-date", default=DEFAULT_START_DATE)
+    parser.add_argument("--end-date", default=DEFAULT_END_DATE)
+    parser.add_argument("--force", action="store_true", help="Overwrite existing JSON files.")
+    parser.add_argument("--sleep-seconds", type=int, default=10, help="Delay between wilayah requests.")
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     wilayah = pd.read_csv(REF_PATH, dtype={"kode_kemendagri": str, "bps_kode": str})
     session = make_session()
@@ -97,15 +108,15 @@ def main() -> None:
         name = slugify(str(row["nama_singkat"]))
         out_path = OUT_DIR / f"{kode}_{name}.json"
 
-        if out_path.exists() and out_path.stat().st_size > 0:
-            print(f"SKIP {out_path}")
+        if out_path.exists() and out_path.stat().st_size > 0 and not args.force:
+            print(f"SKIP {out_path} use --force to overwrite")
             continue
 
-        print(f"FETCH {kode} {row['nama_clean']}")
-        payload = fetch_one(session, row)
+        print(f"FETCH {kode} {row['nama_clean']} {args.start_date}..{args.end_date}")
+        payload = fetch_one(session, row, args.start_date, args.end_date)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False)
-        time.sleep(10)
+        time.sleep(args.sleep_seconds)
 
     files = sorted(OUT_DIR.glob("*.json"))
     print(f"Selesai. File cuaca: {len(files)} di {OUT_DIR}")
