@@ -1,0 +1,1141 @@
+{
+  "message": "Data retrieved successfully",
+  "error": 0,
+  "data": [
+    {
+      "id": 201,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3212,
+      "nama_kabupaten_kota": "KABUPATEN INDRAMAYU",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 202,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3213,
+      "nama_kabupaten_kota": "KABUPATEN SUBANG",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 203,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3214,
+      "nama_kabupaten_kota": "KABUPATEN PURWAKARTA",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 204,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3215,
+      "nama_kabupaten_kota": "KABUPATEN KARAWANG",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 205,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3216,
+      "nama_kabupaten_kota": "KABUPATEN BEKASI",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 206,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3217,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG BARAT",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 207,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3218,
+      "nama_kabupaten_kota": "KABUPATEN PANGANDARAN",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 208,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3271,
+      "nama_kabupaten_kota": "KOTA BOGOR",
+      "jumlah_banjir": 11,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 209,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3272,
+      "nama_kabupaten_kota": "KOTA SUKABUMI",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 210,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3273,
+      "nama_kabupaten_kota": "KOTA BANDUNG",
+      "jumlah_banjir": 8,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 211,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3274,
+      "nama_kabupaten_kota": "KOTA CIREBON",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 212,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3275,
+      "nama_kabupaten_kota": "KOTA BEKASI",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 213,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3276,
+      "nama_kabupaten_kota": "KOTA DEPOK",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 214,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3277,
+      "nama_kabupaten_kota": "KOTA CIMAHI",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 215,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3278,
+      "nama_kabupaten_kota": "KOTA TASIKMALAYA",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 216,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3279,
+      "nama_kabupaten_kota": "KOTA BANJAR",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2019
+    },
+    {
+      "id": 217,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3201,
+      "nama_kabupaten_kota": "KABUPATEN BOGOR",
+      "jumlah_banjir": 43,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 218,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3202,
+      "nama_kabupaten_kota": "KABUPATEN SUKABUMI",
+      "jumlah_banjir": 13,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 219,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3203,
+      "nama_kabupaten_kota": "KABUPATEN CIANJUR",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 220,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3204,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG",
+      "jumlah_banjir": 19,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 221,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3205,
+      "nama_kabupaten_kota": "KABUPATEN GARUT",
+      "jumlah_banjir": 15,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 222,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3206,
+      "nama_kabupaten_kota": "KABUPATEN TASIKMALAYA",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 223,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3207,
+      "nama_kabupaten_kota": "KABUPATEN CIAMIS",
+      "jumlah_banjir": 12,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 224,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3208,
+      "nama_kabupaten_kota": "KABUPATEN KUNINGAN",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 225,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3209,
+      "nama_kabupaten_kota": "KABUPATEN CIREBON",
+      "jumlah_banjir": 30,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 226,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3210,
+      "nama_kabupaten_kota": "KABUPATEN MAJALENGKA",
+      "jumlah_banjir": 13,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 227,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3211,
+      "nama_kabupaten_kota": "KABUPATEN SUMEDANG",
+      "jumlah_banjir": 21,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 228,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3212,
+      "nama_kabupaten_kota": "KABUPATEN INDRAMAYU",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 229,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3213,
+      "nama_kabupaten_kota": "KABUPATEN SUBANG",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 230,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3214,
+      "nama_kabupaten_kota": "KABUPATEN PURWAKARTA",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 231,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3215,
+      "nama_kabupaten_kota": "KABUPATEN KARAWANG",
+      "jumlah_banjir": 8,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 232,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3216,
+      "nama_kabupaten_kota": "KABUPATEN BEKASI",
+      "jumlah_banjir": 16,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 233,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3217,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG BARAT",
+      "jumlah_banjir": 3,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 234,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3218,
+      "nama_kabupaten_kota": "KABUPATEN PANGANDARAN",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 235,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3271,
+      "nama_kabupaten_kota": "KOTA BOGOR",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 236,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3272,
+      "nama_kabupaten_kota": "KOTA SUKABUMI",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 237,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3273,
+      "nama_kabupaten_kota": "KOTA BANDUNG",
+      "jumlah_banjir": 8,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 238,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3274,
+      "nama_kabupaten_kota": "KOTA CIREBON",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 239,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3275,
+      "nama_kabupaten_kota": "KOTA BEKASI",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 240,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3276,
+      "nama_kabupaten_kota": "KOTA DEPOK",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 241,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3277,
+      "nama_kabupaten_kota": "KOTA CIMAHI",
+      "jumlah_banjir": 13,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 242,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3278,
+      "nama_kabupaten_kota": "KOTA TASIKMALAYA",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 243,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3279,
+      "nama_kabupaten_kota": "KOTA BANJAR",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2020
+    },
+    {
+      "id": 244,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3201,
+      "nama_kabupaten_kota": "KABUPATEN BOGOR",
+      "jumlah_banjir": 75,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 245,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3202,
+      "nama_kabupaten_kota": "KABUPATEN SUKABUMI",
+      "jumlah_banjir": 27,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 246,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3203,
+      "nama_kabupaten_kota": "KABUPATEN CIANJUR",
+      "jumlah_banjir": 8,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 247,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3204,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG",
+      "jumlah_banjir": 50,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 248,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3205,
+      "nama_kabupaten_kota": "KABUPATEN GARUT",
+      "jumlah_banjir": 14,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 249,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3206,
+      "nama_kabupaten_kota": "KABUPATEN TASIKMALAYA",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 250,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3207,
+      "nama_kabupaten_kota": "KABUPATEN CIAMIS",
+      "jumlah_banjir": 12,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 251,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3208,
+      "nama_kabupaten_kota": "KABUPATEN KUNINGAN",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 252,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3209,
+      "nama_kabupaten_kota": "KABUPATEN CIREBON",
+      "jumlah_banjir": 9,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 253,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3210,
+      "nama_kabupaten_kota": "KABUPATEN MAJALENGKA",
+      "jumlah_banjir": 9,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 254,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3211,
+      "nama_kabupaten_kota": "KABUPATEN SUMEDANG",
+      "jumlah_banjir": 14,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 255,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3212,
+      "nama_kabupaten_kota": "KABUPATEN INDRAMAYU",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 256,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3213,
+      "nama_kabupaten_kota": "KABUPATEN SUBANG",
+      "jumlah_banjir": 16,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 257,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3214,
+      "nama_kabupaten_kota": "KABUPATEN PURWAKARTA",
+      "jumlah_banjir": 3,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 258,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3215,
+      "nama_kabupaten_kota": "KABUPATEN KARAWANG",
+      "jumlah_banjir": 15,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 259,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3216,
+      "nama_kabupaten_kota": "KABUPATEN BEKASI",
+      "jumlah_banjir": 9,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 260,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3217,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG BARAT",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 261,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3218,
+      "nama_kabupaten_kota": "KABUPATEN PANGANDARAN",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 262,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3271,
+      "nama_kabupaten_kota": "KOTA BOGOR",
+      "jumlah_banjir": 18,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 263,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3272,
+      "nama_kabupaten_kota": "KOTA SUKABUMI",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 264,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3273,
+      "nama_kabupaten_kota": "KOTA BANDUNG",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 265,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3274,
+      "nama_kabupaten_kota": "KOTA CIREBON",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 266,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3275,
+      "nama_kabupaten_kota": "KOTA BEKASI",
+      "jumlah_banjir": 14,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 267,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3276,
+      "nama_kabupaten_kota": "KOTA DEPOK",
+      "jumlah_banjir": 3,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 268,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3277,
+      "nama_kabupaten_kota": "KOTA CIMAHI",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 269,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3278,
+      "nama_kabupaten_kota": "KOTA TASIKMALAYA",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 270,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3279,
+      "nama_kabupaten_kota": "KOTA BANJAR",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2021
+    },
+    {
+      "id": 271,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3201,
+      "nama_kabupaten_kota": "KABUPATEN BOGOR",
+      "jumlah_banjir": 28,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 272,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3202,
+      "nama_kabupaten_kota": "KABUPATEN SUKABUMI",
+      "jumlah_banjir": 30,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 273,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3203,
+      "nama_kabupaten_kota": "KABUPATEN CIANJUR",
+      "jumlah_banjir": 12,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 274,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3204,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG",
+      "jumlah_banjir": 25,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 275,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3205,
+      "nama_kabupaten_kota": "KABUPATEN GARUT",
+      "jumlah_banjir": 12,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 276,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3206,
+      "nama_kabupaten_kota": "KABUPATEN TASIKMALAYA",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 277,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3207,
+      "nama_kabupaten_kota": "KABUPATEN CIAMIS",
+      "jumlah_banjir": 8,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 278,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3208,
+      "nama_kabupaten_kota": "KABUPATEN KUNINGAN",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 279,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3209,
+      "nama_kabupaten_kota": "KABUPATEN CIREBON",
+      "jumlah_banjir": 13,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 280,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3210,
+      "nama_kabupaten_kota": "KABUPATEN MAJALENGKA",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 281,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3211,
+      "nama_kabupaten_kota": "KABUPATEN SUMEDANG",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 282,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3212,
+      "nama_kabupaten_kota": "KABUPATEN INDRAMAYU",
+      "jumlah_banjir": 1,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 283,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3213,
+      "nama_kabupaten_kota": "KABUPATEN SUBANG",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 284,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3214,
+      "nama_kabupaten_kota": "KABUPATEN PURWAKARTA",
+      "jumlah_banjir": 4,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 285,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3215,
+      "nama_kabupaten_kota": "KABUPATEN KARAWANG",
+      "jumlah_banjir": 17,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 286,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3216,
+      "nama_kabupaten_kota": "KABUPATEN BEKASI",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 287,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3217,
+      "nama_kabupaten_kota": "KABUPATEN BANDUNG BARAT",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 288,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3218,
+      "nama_kabupaten_kota": "KABUPATEN PANGANDARAN",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 289,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3271,
+      "nama_kabupaten_kota": "KOTA BOGOR",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 290,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3272,
+      "nama_kabupaten_kota": "KOTA SUKABUMI",
+      "jumlah_banjir": 5,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 291,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3273,
+      "nama_kabupaten_kota": "KOTA BANDUNG",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 292,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3274,
+      "nama_kabupaten_kota": "KOTA CIREBON",
+      "jumlah_banjir": 9,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 293,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3275,
+      "nama_kabupaten_kota": "KOTA BEKASI",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 294,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3276,
+      "nama_kabupaten_kota": "KOTA DEPOK",
+      "jumlah_banjir": 6,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 295,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3277,
+      "nama_kabupaten_kota": "KOTA CIMAHI",
+      "jumlah_banjir": 10,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 296,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3278,
+      "nama_kabupaten_kota": "KOTA TASIKMALAYA",
+      "jumlah_banjir": 2,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 297,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3279,
+      "nama_kabupaten_kota": "KOTA BANJAR",
+      "jumlah_banjir": 0,
+      "satuan": "KEJADIAN",
+      "tahun": 2022
+    },
+    {
+      "id": 298,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3201,
+      "nama_kabupaten_kota": "KABUPATEN BOGOR",
+      "jumlah_banjir": 29,
+      "satuan": "KEJADIAN",
+      "tahun": 2023
+    },
+    {
+      "id": 299,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3202,
+      "nama_kabupaten_kota": "KABUPATEN SUKABUMI",
+      "jumlah_banjir": 7,
+      "satuan": "KEJADIAN",
+      "tahun": 2023
+    },
+    {
+      "id": 300,
+      "kode_provinsi": 32,
+      "nama_provinsi": "JAWA BARAT",
+      "kode_kabupaten_kota": 3203,
+      "nama_kabupaten_kota": "KABUPATEN CIANJUR",
+      "jumlah_banjir": 11,
+      "satuan": "KEJADIAN",
+      "tahun": 2023
+    }
+  ],
+  "metadata": [
+    "id",
+    "kode_provinsi",
+    "nama_provinsi",
+    "kode_kabupaten_kota",
+    "nama_kabupaten_kota",
+    "jumlah_banjir",
+    "satuan",
+    "tahun"
+  ],
+  "meta": {
+    "skip": 200,
+    "limit": 100,
+    "total_record": 378,
+    "total_page": 4
+  },
+  "metadata_filter": [
+    {
+      "key": "id",
+      "type": "free text",
+      "value": []
+    },
+    {
+      "key": "kode_provinsi",
+      "type": "select",
+      "value": [
+        32
+      ]
+    },
+    {
+      "key": "nama_provinsi",
+      "type": "select",
+      "value": [
+        "JAWA BARAT"
+      ]
+    },
+    {
+      "key": "kode_kabupaten_kota",
+      "type": "select",
+      "value": [
+        3201,
+        3202,
+        3203,
+        3204,
+        3205,
+        3206,
+        3207,
+        3208,
+        3209,
+        3210,
+        3211,
+        3212,
+        3213,
+        3214,
+        3215,
+        3216,
+        3217,
+        3218,
+        3271,
+        3272,
+        3273,
+        3274,
+        3275,
+        3276,
+        3277,
+        3278,
+        3279
+      ]
+    },
+    {
+      "key": "nama_kabupaten_kota",
+      "type": "select",
+      "value": [
+        "KABUPATEN BANDUNG",
+        "KABUPATEN BANDUNG BARAT",
+        "KABUPATEN BEKASI",
+        "KABUPATEN BOGOR",
+        "KABUPATEN CIAMIS",
+        "KABUPATEN CIANJUR",
+        "KABUPATEN CIREBON",
+        "KABUPATEN GARUT",
+        "KABUPATEN INDRAMAYU",
+        "KABUPATEN KARAWANG",
+        "KABUPATEN KUNINGAN",
+        "KABUPATEN MAJALENGKA",
+        "KABUPATEN PANGANDARAN",
+        "KABUPATEN PURWAKARTA",
+        "KABUPATEN SUBANG",
+        "KABUPATEN SUKABUMI",
+        "KABUPATEN SUMEDANG",
+        "KABUPATEN TASIKMALAYA",
+        "KOTA BANDUNG",
+        "KOTA BANJAR",
+        "KOTA BEKASI",
+        "KOTA BOGOR",
+        "KOTA CIMAHI",
+        "KOTA CIREBON",
+        "KOTA DEPOK",
+        "KOTA SUKABUMI",
+        "KOTA TASIKMALAYA"
+      ]
+    },
+    {
+      "key": "jumlah_banjir",
+      "type": "free text",
+      "value": []
+    },
+    {
+      "key": "satuan",
+      "type": "select",
+      "value": [
+        "KEJADIAN"
+      ]
+    },
+    {
+      "key": "tahun",
+      "type": "select",
+      "value": [
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    }
+  ]
+}

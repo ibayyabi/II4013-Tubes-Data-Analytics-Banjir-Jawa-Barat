@@ -1,0 +1,19 @@
+{
+  "source": "https://data.jabarprov.go.id/api-backend/bigdata/bpbd/od_17600_jml_kejadian_bencana_banjir_brdsrkn_kabupatenkota_v1",
+  "fetched_at": "2026-05-25T23:27:24",
+  "limit": 100,
+  "pages": 4,
+  "total_records": 378,
+  "output_csv": "data/raw/banjir_kab_opendata_jabar.csv",
+  "raw_json_dir": "data/raw/api_opendata_jabar/banjir_kab",
+  "columns": [
+    "id",
+    "kode_provinsi",
+    "nama_provinsi",
+    "kode_kabupaten_kota",
+    "nama_kabupaten_kota",
+    "jumlah_banjir",
+    "satuan",
+    "tahun"
+  ]
+}
