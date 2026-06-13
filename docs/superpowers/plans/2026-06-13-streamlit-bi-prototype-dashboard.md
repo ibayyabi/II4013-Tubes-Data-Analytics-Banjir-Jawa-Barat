@@ -1,81 +1,86 @@
-import json
-from pathlib import Path
+# Streamlit BI Prototype Dashboard Implementation Plan
 
-import pandas as pd
-import plotly.express as px
-import streamlit as st
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-SUMMARY_PATH = Path("data/processed/cluster_wilayah_summary.csv")
+**Goal:** Expand `app.py` into a BI-style Streamlit dashboard that keeps the existing choropleth and adds ENGINEER.md-aligned pages using `MASTER_MERGED_CLEANED_DASHBOARD.csv` and cluster data under `data/processed/`.
+
+**Architecture:** Keep a single Streamlit entrypoint in `app.py` to match the current project pattern. Add pure data-preparation helpers for dashboard metrics, time series, correlations, and priority tables so behavior can be tested without launching Streamlit. Use tab-based pages to mirror Looker Studio/Tableau report pages.
+
+**Tech Stack:** Python, pandas, Streamlit, Plotly, pytest, existing GeoJSON and CSV files.
+
+---
+
+## File Structure
+
+- Modify: `app.py`
+  - Keep existing choropleth helpers.
+  - Add main dataset loading from `MASTER_MERGED_CLEANED_DASHBOARD.csv`.
+  - Add helper functions for KPI, trend, correlation, priority, and profile outputs.
+  - Replace single-page render with BI-style `st.tabs()` layout.
+- Modify: `tests/test_streamlit_dashboard.py`
+  - Keep existing tests.
+  - Add tests for main dataset preparation, KPI aggregation, trend aggregation, correlation-ready data, and priority table.
+
+---
+
+### Task 1: Add main dashboard data preparation
+
+**Files:**
+- Modify: `app.py`
+- Modify: `tests/test_streamlit_dashboard.py`
+
+- [ ] **Step 1: Write failing tests**
+
+Append to `tests/test_streamlit_dashboard.py`:
+
+```python
+def test_prepare_main_data_normalizes_codes_and_numeric_columns():
+    raw = pd.DataFrame(
+        {
+            "kode_kemendagri": [3201],
+            "nama_clean": ["KABUPATEN BOGOR"],
+            "tahun": ["2013"],
+            "jumlah_banjir": ["19"],
+            "total_hujan_tahunan_mm": ["3343.8"],
+            "total_hari_hujan_ekstrem": ["4"],
+            "jumlah_sampah_ton_per_tahun": ["1000.5"],
+            "total_terdampak": ["895"],
+            "pengungsi": ["10"],
+            "lat": ["-6.5971"],
+            "lon": ["106.806"],
+        }
+    )
+
+    prepared = app.prepare_main_data(raw)
+
+    assert prepared.loc[0, "kode_kemendagri"] == "3201"
+    assert prepared.loc[0, "tahun"] == 2013
+    assert prepared.loc[0, "jumlah_banjir"] == 19
+    assert prepared.loc[0, "total_hujan_tahunan_mm"] == 3343.8
+    assert prepared.loc[0, "jumlah_sampah_ton_per_tahun"] == 1000.5
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py::test_prepare_main_data_normalizes_codes_and_numeric_columns -v
+```
+
+Expected: FAIL with `AttributeError: module 'dashboard_app' has no attribute 'prepare_main_data'`.
+
+- [ ] **Step 3: Implement minimal code**
+
+In `app.py`, add near path constants:
+
+```python
 MAIN_DATA_PATH = Path("MASTER_MERGED_CLEANED_DASHBOARD.csv")
-GEOJSON_PATH = Path("data/reference/Jabar_By_Kab.geojson")
-CLUSTER_ORDER = ["Rendah", "Sedang", "Tinggi"]
-COLOR_MAP = {"Rendah": "#FEE8C8", "Sedang": "#FDBB84", "Tinggi": "#E34A33"}
-GEOJSON_KEY_CANDIDATES = [
-    "kode_kemendagri",
-    "KODE_KAB",
-    "ID_KAB",
-    "kode",
-    "id",
-    "bps_kode",
-    "KABKOTNO",
-]
+```
 
+Add after `prepare_summary_data`:
 
-def normalize_region_code(value) -> str:
-    if pd.isna(value):
-        return ""
-    text = str(value).strip()
-    if text.endswith(".0"):
-        text = text[:-2]
-    if text.isdigit() and len(text) == 2:
-        text = f"32{text}"
-    return text.zfill(4)
-
-
-def prepare_summary_data(df: pd.DataFrame) -> pd.DataFrame:
-    required = [
-        "kode_kemendagri",
-        "nama_clean",
-        "skor_kerentanan_rata2",
-        "avg_jumlah_banjir",
-        "avg_total_hari_hujan_ekstrem",
-        "avg_jumlah_sampah_ton_per_tahun",
-        "cluster_label",
-    ]
-    missing = [col for col in required if col not in df.columns]
-    if missing:
-        raise ValueError(f"Missing required summary columns: {missing}")
-
-    prepared = df.copy()
-    prepared["kode_kemendagri"] = prepared["kode_kemendagri"].map(normalize_region_code)
-    prepared["cluster_label"] = pd.Categorical(
-        prepared["cluster_label"], categories=CLUSTER_ORDER, ordered=True
-    )
-    return prepared.sort_values("skor_kerentanan_rata2", ascending=False).reset_index(drop=True)
-
-
-def detect_geojson_key(geojson: dict) -> str:
-    features = geojson.get("features", [])
-    if not features:
-        raise ValueError("GeoJSON has no features")
-    properties = features[0].get("properties", {})
-    for candidate in GEOJSON_KEY_CANDIDATES:
-        if candidate in properties:
-            return candidate
-    raise ValueError(
-        "GeoJSON join key not found. Expected one of: "
-        + ", ".join(GEOJSON_KEY_CANDIDATES)
-    )
-
-
-def normalize_geojson_join_key(geojson: dict, key: str) -> dict:
-    normalized = json.loads(json.dumps(geojson))
-    for feature in normalized.get("features", []):
-        props = feature.setdefault("properties", {})
-        props["kode_kemendagri_norm"] = normalize_region_code(props.get(key))
-    return normalized
-
-
+```python
 def prepare_main_data(df: pd.DataFrame) -> pd.DataFrame:
     required = [
         "kode_kemendagri",
@@ -115,8 +120,93 @@ def prepare_main_data(df: pd.DataFrame) -> pd.DataFrame:
 
 def load_main_data(path: Path = MAIN_DATA_PATH) -> pd.DataFrame:
     return prepare_main_data(pd.read_csv(path, dtype={"kode_kemendagri": str}))
+```
+
+- [ ] **Step 4: Run test to verify it passes**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py::test_prepare_main_data_normalizes_codes_and_numeric_columns -v
+```
+
+Expected: PASS.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app.py tests/test_streamlit_dashboard.py
+git commit -m "feat: load main dashboard dataset"
+```
+
+---
+
+### Task 2: Add KPI and trend aggregations
+
+**Files:**
+- Modify: `app.py`
+- Modify: `tests/test_streamlit_dashboard.py`
+
+- [ ] **Step 1: Write failing tests**
+
+Append to `tests/test_streamlit_dashboard.py`:
+
+```python
+def test_build_kpis_summarizes_core_engineer_metrics():
+    df = pd.DataFrame(
+        {
+            "kode_kemendagri": ["3201", "3202"],
+            "jumlah_banjir": [10, 5],
+            "total_terdampak": [100, 50],
+            "pengungsi": [20, 5],
+            "total_hari_hujan_ekstrem": [3, 2],
+            "jumlah_sampah_ton_per_tahun": [1000.0, 500.0],
+        }
+    )
+
+    kpis = app.build_kpis(df, high_risk_count=4)
+
+    assert kpis["total_banjir"] == 15
+    assert kpis["total_terdampak"] == 150
+    assert kpis["total_pengungsi"] == 25
+    assert kpis["avg_hari_hujan_ekstrem"] == 2.5
+    assert kpis["avg_sampah_ton"] == 750.0
+    assert kpis["wilayah_risiko_tinggi"] == 4
 
 
+def test_build_yearly_trend_groups_by_year():
+    df = pd.DataFrame(
+        {
+            "tahun": [2020, 2020, 2021],
+            "jumlah_banjir": [1, 2, 3],
+            "total_hujan_tahunan_mm": [100.0, 300.0, 500.0],
+            "total_terdampak": [10, 20, 30],
+        }
+    )
+
+    trend = app.build_yearly_trend(df)
+
+    assert trend["tahun"].tolist() == [2020, 2021]
+    assert trend["jumlah_banjir"].tolist() == [3, 3]
+    assert trend["total_hujan_tahunan_mm"].tolist() == [200.0, 500.0]
+    assert trend["total_terdampak"].tolist() == [30, 30]
+```
+
+- [ ] **Step 2: Run tests to verify they fail**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py::test_build_kpis_summarizes_core_engineer_metrics tests/test_streamlit_dashboard.py::test_build_yearly_trend_groups_by_year -v
+```
+
+Expected: FAIL with missing function attributes.
+
+- [ ] **Step 3: Implement minimal code**
+
+Add to `app.py` after `load_main_data`:
+
+```python
 def build_kpis(df: pd.DataFrame, high_risk_count: int) -> dict:
     return {
         "total_banjir": int(df["jumlah_banjir"].fillna(0).sum()),
@@ -138,8 +228,100 @@ def build_yearly_trend(df: pd.DataFrame) -> pd.DataFrame:
         )
         .sort_values("tahun")
     )
+```
+
+- [ ] **Step 4: Run tests to verify they pass**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py::test_build_kpis_summarizes_core_engineer_metrics tests/test_streamlit_dashboard.py::test_build_yearly_trend_groups_by_year -v
+```
+
+Expected: PASS.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app.py tests/test_streamlit_dashboard.py
+git commit -m "feat: add dashboard KPI and trend aggregations"
+```
+
+---
+
+### Task 3: Add correlation and priority helper tables
+
+**Files:**
+- Modify: `app.py`
+- Modify: `tests/test_streamlit_dashboard.py`
+
+- [ ] **Step 1: Write failing tests**
+
+Append to `tests/test_streamlit_dashboard.py`:
+
+```python
+def test_build_correlation_data_aggregates_wilayah_level_metrics():
+    main_df = pd.DataFrame(
+        {
+            "kode_kemendagri": ["3201", "3201", "3202"],
+            "nama_clean": ["BOGOR", "BOGOR", "SUKABUMI"],
+            "jumlah_banjir": [10, 20, 5],
+            "total_hari_hujan_ekstrem": [2, 4, 1],
+            "jumlah_sampah_ton_per_tahun": [100.0, 300.0, 50.0],
+            "total_terdampak": [100, 200, 25],
+        }
+    )
+    summary_df = pd.DataFrame(
+        {
+            "kode_kemendagri": ["3201", "3202"],
+            "cluster_label": ["Tinggi", "Rendah"],
+            "skor_kerentanan_rata2": [0.9, -0.5],
+        }
+    )
+
+    corr = app.build_correlation_data(main_df, summary_df)
+
+    bogor = corr[corr["kode_kemendagri"] == "3201"].iloc[0]
+    assert bogor["avg_jumlah_banjir"] == 15.0
+    assert bogor["avg_total_hari_hujan_ekstrem"] == 3.0
+    assert bogor["avg_jumlah_sampah_ton_per_tahun"] == 200.0
+    assert bogor["total_terdampak"] == 300
+    assert bogor["cluster_label"] == "Tinggi"
 
 
+def test_build_priority_table_sorts_high_risk_first():
+    summary_df = pd.DataFrame(
+        {
+            "nama_clean": ["A", "B", "C"],
+            "cluster_label": ["Sedang", "Tinggi", "Rendah"],
+            "skor_kerentanan_rata2": [0.2, 0.9, -0.4],
+            "avg_jumlah_banjir": [5, 12, 1],
+            "avg_total_hari_hujan_ekstrem": [3, 5, 1],
+            "avg_jumlah_sampah_ton_per_tahun": [100, 500, 50],
+        }
+    )
+
+    priority = app.build_priority_table(summary_df)
+
+    assert priority["nama_clean"].tolist()[0] == "B"
+    assert priority["prioritas"].tolist() == ["Prioritas 1", "Prioritas 2", "Prioritas 3"]
+```
+
+- [ ] **Step 2: Run tests to verify they fail**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py::test_build_correlation_data_aggregates_wilayah_level_metrics tests/test_streamlit_dashboard.py::test_build_priority_table_sorts_high_risk_first -v
+```
+
+Expected: FAIL with missing function attributes.
+
+- [ ] **Step 3: Implement minimal code**
+
+Add to `app.py` after `build_yearly_trend`:
+
+```python
 def build_correlation_data(main_df: pd.DataFrame, summary_df: pd.DataFrame) -> pd.DataFrame:
     grouped = (
         main_df.groupby(["kode_kemendagri", "nama_clean"], as_index=False)
@@ -168,57 +350,47 @@ def build_priority_table(summary_df: pd.DataFrame) -> pd.DataFrame:
         .drop(columns=["_priority_rank"])
         .reset_index(drop=True)
     )
+```
 
+- [ ] **Step 4: Run tests to verify they pass**
 
-def load_summary_data(path: Path = SUMMARY_PATH) -> pd.DataFrame:
-    return prepare_summary_data(pd.read_csv(path, dtype={"kode_kemendagri": str}))
+Run:
 
+```bash
+pytest tests/test_streamlit_dashboard.py::test_build_correlation_data_aggregates_wilayah_level_metrics tests/test_streamlit_dashboard.py::test_build_priority_table_sorts_high_risk_first -v
+```
 
-def load_geojson(path: Path = GEOJSON_PATH) -> tuple[dict, str]:
-    with path.open(encoding="utf-8") as f:
-        geojson = json.load(f)
-    key = detect_geojson_key(geojson)
-    return normalize_geojson_join_key(geojson, key), key
+Expected: PASS.
 
+- [ ] **Step 5: Commit**
 
-def build_choropleth(df: pd.DataFrame, geojson: dict):
-    fig = px.choropleth_mapbox(
-        df,
-        geojson=geojson,
-        locations="kode_kemendagri",
-        featureidkey="properties.kode_kemendagri_norm",
-        color="cluster_label",
-        color_discrete_map=COLOR_MAP,
-        category_orders={"cluster_label": CLUSTER_ORDER},
-        hover_name="nama_clean",
-        hover_data={
-            "kode_kemendagri": True,
-            "cluster_label": True,
-            "skor_kerentanan_rata2": ":.3f",
-            "avg_jumlah_banjir": ":.2f",
-            "avg_total_hari_hujan_ekstrem": ":.2f",
-            "avg_jumlah_sampah_ton_per_tahun": ":,.0f",
-        },
-        mapbox_style="carto-positron",
-        center={"lat": -6.9, "lon": 107.6},
-        zoom=7,
-        opacity=0.82,
-    )
-    fig.update_layout(
-        margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        legend_title_text="Cluster Kerentanan",
-        height=620,
-    )
-    return fig
+```bash
+git add app.py tests/test_streamlit_dashboard.py
+git commit -m "feat: add correlation and priority data helpers"
+```
 
+---
 
-def render_metrics(df: pd.DataFrame) -> None:
-    counts = df["cluster_label"].value_counts().reindex(CLUSTER_ORDER, fill_value=0)
-    cols = st.columns(3)
-    for col, label in zip(cols, CLUSTER_ORDER):
-        col.metric(label=f"Wilayah {label}", value=int(counts[label]))
+### Task 4: Render BI-style Streamlit tabs
 
+**Files:**
+- Modify: `app.py`
 
+- [ ] **Step 1: Manually verify current app entrypoint**
+
+Run:
+
+```bash
+python -m py_compile app.py
+```
+
+Expected: exits with code 0.
+
+- [ ] **Step 2: Replace `render_app` with tabbed dashboard implementation**
+
+Replace the current `render_app` function in `app.py` with:
+
+```python
 def render_app() -> None:
     st.set_page_config(page_title="Dashboard Risiko Banjir Jawa Barat", layout="wide")
     st.title("Dashboard Risiko Banjir Jawa Barat")
@@ -276,11 +448,7 @@ def render_app() -> None:
         cols[5].metric("Rata-rata Sampah", f"{kpis['avg_sampah_ton']:,.0f} ton")
 
         cluster_counts = (
-            filtered_summary["cluster_label"]
-            .astype(str)
-            .value_counts()
-            .reindex(CLUSTER_ORDER, fill_value=0)
-            .reset_index()
+            filtered_summary["cluster_label"].astype(str).value_counts().reindex(CLUSTER_ORDER, fill_value=0).reset_index()
         )
         cluster_counts.columns = ["cluster_label", "jumlah_wilayah"]
         st.plotly_chart(
@@ -403,7 +571,96 @@ def render_app() -> None:
             **Tujuan BI:** struktur tab ini sengaja dibuat setara dengan page/report di Looker Studio atau dashboard sheet di Tableau.
             """
         )
+```
 
+- [ ] **Step 3: Compile app**
 
-if __name__ == "__main__":
-    render_app()
+Run:
+
+```bash
+python -m py_compile app.py
+```
+
+Expected: exits with code 0.
+
+- [ ] **Step 4: Run dashboard smoke command**
+
+Run:
+
+```bash
+streamlit run app.py --server.headless true --server.port 8501
+```
+
+Expected: Streamlit starts and serves the app. Stop with `Ctrl+C` after startup is confirmed.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app.py
+git commit -m "feat: render BI-style dashboard tabs"
+```
+
+---
+
+### Task 5: Final verification
+
+**Files:**
+- Verify only.
+
+- [ ] **Step 1: Run full dashboard tests**
+
+Run:
+
+```bash
+pytest tests/test_streamlit_dashboard.py -v
+```
+
+Expected: all tests pass.
+
+- [ ] **Step 2: Run full test suite**
+
+Run:
+
+```bash
+pytest -v
+```
+
+Expected: all tests pass.
+
+- [ ] **Step 3: Run Python compile check**
+
+Run:
+
+```bash
+python -m py_compile app.py
+```
+
+Expected: exits with code 0.
+
+- [ ] **Step 4: Manual dashboard review**
+
+Run:
+
+```bash
+streamlit run app.py
+```
+
+Expected: app opens with six tabs: Executive Summary, Peta Risiko Wilayah, Tren & Puncak Bahaya, Korelasi Sampah-Banjir-Cuaca, Profil Cluster & Prioritas, Metodologi.
+
+- [ ] **Step 5: Commit verification notes if files changed**
+
+If no files changed, skip. If formatting or minor fixes were needed:
+
+```bash
+git add app.py tests/test_streamlit_dashboard.py
+git commit -m "test: verify streamlit dashboard prototype"
+```
+
+---
+
+## Self-Review
+
+- Spec coverage: choropleth retained in Tab 2; ENGINEER.md requirements covered by executive KPIs, risk map, trend/puncak bahaya, correlation, BPBD/Pemda priority table, public/metodologi explanation.
+- Placeholder scan: no TBD/TODO placeholders remain.
+- Type consistency: helper names used by tests match helper names defined in `app.py`.
+- Migration feasibility: visuals are BI-common primitives: scorecards, bar charts, line charts, scatter plots, map, and tables.
