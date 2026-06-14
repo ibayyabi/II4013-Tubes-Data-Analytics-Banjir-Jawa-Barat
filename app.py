@@ -14,6 +14,7 @@ REFERENCE_REGIONS_PATH = Path("data/reference/master_wilayah_jabar.csv")
 CLUSTER_ORDER = ["Rendah", "Sedang", "Tinggi"]
 MONTH_LABELS = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "Mei", 6: "Jun", 7: "Jul", 8: "Agu", 9: "Sep", 10: "Okt", 11: "Nov", 12: "Des"}
 COLOR_MAP = {"Rendah": "#FEE8C8", "Sedang": "#FDBB84", "Tinggi": "#E34A33"}
+READABLE_INK = "#17251F"
 GEOJSON_KEY_CANDIDATES = [
     "kode_kemendagri",
     "KODE_KAB",
@@ -23,6 +24,22 @@ GEOJSON_KEY_CANDIDATES = [
     "bps_kode",
     "KABKOTNO",
 ]
+
+
+def apply_readable_chart_theme(fig):
+    fig.update_layout(
+        font={"color": READABLE_INK},
+        title={"font": {"color": READABLE_INK}},
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        coloraxis_colorbar={
+            "tickfont": {"color": READABLE_INK},
+            "title": {"font": {"color": READABLE_INK}},
+        },
+    )
+    fig.update_xaxes(tickfont={"color": READABLE_INK}, title_font={"color": READABLE_INK})
+    fig.update_yaxes(tickfont={"color": READABLE_INK}, title_font={"color": READABLE_INK})
+    return fig
 
 
 def normalize_region_code(value) -> str:
@@ -212,6 +229,51 @@ def build_priority_table(summary_df: pd.DataFrame) -> pd.DataFrame:
         .drop(columns=["_priority_rank"])
         .reset_index(drop=True)
     )
+
+CLUSTER_PROFILE_METRICS = {
+    "avg_skor_kerentanan": "Skor Kerentanan",
+    "avg_jumlah_banjir": "Rata-rata Banjir",
+    "avg_total_hari_hujan_ekstrem": "Hari Hujan Ekstrem",
+    "avg_jumlah_sampah_ton_per_tahun": "Sampah (ton/tahun)",
+}
+
+
+def build_cluster_profile_heatmap(profile: pd.DataFrame) -> pd.DataFrame:
+    required = ["cluster_label", *CLUSTER_PROFILE_METRICS]
+    missing = [col for col in required if col not in profile.columns]
+    if missing:
+        raise ValueError(f"Missing required cluster profile columns: {missing}")
+
+    tidy = profile[required].copy()
+    tidy["cluster_label"] = pd.Categorical(tidy["cluster_label"], categories=CLUSTER_ORDER, ordered=True)
+    tidy = tidy.sort_values("cluster_label")
+    heatmap = tidy.melt(
+        id_vars="cluster_label",
+        value_vars=list(CLUSTER_PROFILE_METRICS),
+        var_name="indikator",
+        value_name="nilai",
+    )
+    heatmap["indikator"] = heatmap["indikator"].map(CLUSTER_PROFILE_METRICS)
+    return heatmap.sort_values("cluster_label").reset_index(drop=True)
+
+
+def build_cluster_cards(profile: pd.DataFrame) -> pd.DataFrame:
+    required = [
+        "cluster_label",
+        "jumlah_observasi",
+        "avg_skor_kerentanan",
+        "avg_jumlah_banjir",
+        "avg_total_hari_hujan_ekstrem",
+        "avg_jumlah_sampah_ton_per_tahun",
+        "interpretasi",
+    ]
+    missing = [col for col in required if col not in profile.columns]
+    if missing:
+        raise ValueError(f"Missing required cluster card columns: {missing}")
+
+    cards = profile[required].copy()
+    cards["cluster_label"] = pd.Categorical(cards["cluster_label"], categories=CLUSTER_ORDER, ordered=True)
+    return cards.sort_values("cluster_label").reset_index(drop=True)
 
 
 def load_summary_data(path: Path = SUMMARY_PATH) -> pd.DataFrame:
@@ -487,32 +549,75 @@ def render_app() -> None:
 
     with tab_cluster:
         st.subheader("Profil Cluster & Prioritas Wilayah")
+        st.caption("Baca karakter tiap cluster lewat indikator utama. Tabel lengkap tetap tersedia di bagian bawah.")
         profile = pd.read_csv("data/processed/cluster_profile.csv")
+        heatmap = build_cluster_profile_heatmap(profile)
         st.plotly_chart(
-            px.bar(
-                profile,
-                x="cluster_label",
-                y=["avg_jumlah_banjir", "avg_total_hari_hujan_ekstrem"],
-                barmode="group",
-                title="Profil Rata-rata Indikator per Cluster",
+            apply_readable_chart_theme(
+                px.imshow(
+                    heatmap.pivot(index="indikator", columns="cluster_label", values="nilai"),
+                    color_continuous_scale="Greens",
+                    aspect="auto",
+                    title="Profil Indikator per Cluster",
+                    labels={"x": "Cluster", "y": "Indikator", "color": "Nilai"},
+                )
             ),
             use_container_width=True,
         )
-        st.dataframe(profile, use_container_width=True, hide_index=True)
+
+        st.markdown("**Ringkasan karakter cluster**")
+        for column, (_, row) in zip(st.columns(3), build_cluster_cards(profile).iterrows()):
+            with column:
+                st.metric(str(row["cluster_label"]), f"{row['jumlah_observasi']:.0f} observasi")
+                st.markdown(
+                    f"""
+                    - Skor: **{row['avg_skor_kerentanan']:.2f}**
+                    - Banjir: **{row['avg_jumlah_banjir']:.1f}** kejadian
+                    - Hujan ekstrem: **{row['avg_total_hari_hujan_ekstrem']:.1f}** hari
+                    - Sampah: **{row['avg_jumlah_sampah_ton_per_tahun']:,.0f}** ton/tahun
+
+                    {row['interpretasi']}
+                    """
+                )
+
         priority = build_priority_table(filtered_summary)
-        st.dataframe(priority, use_container_width=True, hide_index=True)
-        st.markdown("**Rekomendasi cepat per audience**")
+        st.markdown("**Top 5 wilayah prioritas**")
         st.dataframe(
-            priority.assign(
-                bpbd="Prioritaskan logistik/evakuasi" ,
-                pemda="Audit drainase dan tata ruang lokal",
-                publik="Pantau peringatan hujan ekstrem dan siapkan evakuasi mandiri",
-            )[["nama_clean", "prioritas", "cluster_label", "bpbd", "pemda", "publik"]],
+            priority.head(5)[
+                [
+                    "nama_clean",
+                    "prioritas",
+                    "cluster_label",
+                    "skor_kerentanan_rata2",
+                    "avg_jumlah_banjir",
+                    "avg_total_hari_hujan_ekstrem",
+                ]
+            ],
             use_container_width=True,
             hide_index=True,
         )
-        st.markdown("**Potensi dampak ekonomi/fisik**")
-        st.dataframe(economic_risk.sort_values("ekonomi_rp_miliar", ascending=False), use_container_width=True, hide_index=True)
+
+        with st.expander("Lihat data lengkap"):
+            st.markdown("**Profil cluster mentah**")
+            st.dataframe(profile, use_container_width=True, hide_index=True)
+            st.markdown("**Prioritas semua wilayah**")
+            st.dataframe(priority, use_container_width=True, hide_index=True)
+            st.markdown("**Rekomendasi cepat per audience**")
+            st.dataframe(
+                priority.assign(
+                    bpbd="Prioritaskan logistik/evakuasi",
+                    pemda="Audit drainase dan tata ruang lokal",
+                    publik="Pantau peringatan hujan ekstrem dan siapkan evakuasi mandiri",
+                )[["nama_clean", "prioritas", "cluster_label", "bpbd", "pemda", "publik"]],
+                use_container_width=True,
+                hide_index=True,
+            )
+            st.markdown("**Potensi dampak ekonomi/fisik**")
+            st.dataframe(
+                economic_risk.sort_values("ekonomi_rp_miliar", ascending=False),
+                use_container_width=True,
+                hide_index=True,
+            )
 
     with tab_method:
         st.subheader("Data Dictionary & Metodologi")
