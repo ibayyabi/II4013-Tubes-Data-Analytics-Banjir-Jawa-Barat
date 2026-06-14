@@ -8,7 +8,11 @@ import streamlit as st
 SUMMARY_PATH = Path("data/processed/cluster_wilayah_summary.csv")
 MAIN_DATA_PATH = Path("MASTER_MERGED_CLEANED_DASHBOARD.csv")
 GEOJSON_PATH = Path("data/reference/Jabar_By_Kab.geojson")
+MONTHLY_WEATHER_PATH = Path("data/clean/cuaca_bulanan.csv")
+ECONOMIC_RISK_PATH = Path("data/raw/grafisk-potensi-banjir-jABAR.csv")
+REFERENCE_REGIONS_PATH = Path("data/reference/master_wilayah_jabar.csv")
 CLUSTER_ORDER = ["Rendah", "Sedang", "Tinggi"]
+MONTH_LABELS = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "Mei", 6: "Jun", 7: "Jul", 8: "Agu", 9: "Sep", 10: "Okt", 11: "Nov", 12: "Des"}
 COLOR_MAP = {"Rendah": "#FEE8C8", "Sedang": "#FDBB84", "Tinggi": "#E34A33"}
 GEOJSON_KEY_CANDIDATES = [
     "kode_kemendagri",
@@ -140,6 +144,31 @@ def build_yearly_trend(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
+def prepare_monthly_weather_data(df: pd.DataFrame) -> pd.DataFrame:
+    required = ["kode_kemendagri", "nama_clean", "tahun", "bulan", "rain_sum_mm", "heavy_rain_days_50mm", "max_daily_precipitation_mm"]
+    missing = [col for col in required if col not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required monthly weather columns: {missing}")
+    prepared = df.copy()
+    prepared["kode_kemendagri"] = prepared["kode_kemendagri"].map(normalize_region_code)
+    for column in ["tahun", "bulan", "rain_sum_mm", "heavy_rain_days_50mm", "max_daily_precipitation_mm"]:
+        prepared[column] = pd.to_numeric(prepared[column], errors="coerce")
+    prepared["bulan_label"] = prepared["bulan"].map(MONTH_LABELS)
+    return prepared
+
+
+def build_monthly_hazard(df: pd.DataFrame) -> pd.DataFrame:
+    return (
+        df.groupby(["bulan", "bulan_label"], as_index=False)
+        .agg(
+            rain_sum_mm=("rain_sum_mm", "mean"),
+            heavy_rain_days_50mm=("heavy_rain_days_50mm", "sum"),
+            max_daily_precipitation_mm=("max_daily_precipitation_mm", "max"),
+        )
+        .sort_values("bulan")
+    )
+
+
 def build_correlation_data(main_df: pd.DataFrame, summary_df: pd.DataFrame) -> pd.DataFrame:
     grouped = (
         main_df.groupby(["kode_kemendagri", "nama_clean"], as_index=False)
@@ -157,6 +186,21 @@ def build_correlation_data(main_df: pd.DataFrame, summary_df: pd.DataFrame) -> p
     )
 
 
+def build_quadrant_data(corr_df: pd.DataFrame) -> pd.DataFrame:
+    median_sampah = corr_df["avg_jumlah_sampah_ton_per_tahun"].median()
+    median_banjir = corr_df["avg_jumlah_banjir"].median()
+    data = corr_df.copy()
+    high_waste = data["avg_jumlah_sampah_ton_per_tahun"] >= median_sampah
+    high_flood = data["avg_jumlah_banjir"] >= median_banjir
+    data["kuadran_risiko"] = "Monitoring"
+    data.loc[high_waste & ~high_flood, "kuadran_risiko"] = "Beban Lingkungan"
+    data.loc[~high_waste & high_flood, "kuadran_risiko"] = "Risiko Hidrometeorologi"
+    data.loc[high_waste & high_flood, "kuadran_risiko"] = "Prioritas Drainase"
+    data.attrs["median_sampah"] = median_sampah
+    data.attrs["median_banjir"] = median_banjir
+    return data
+
+
 def build_priority_table(summary_df: pd.DataFrame) -> pd.DataFrame:
     priority_rank = {"Tinggi": 1, "Sedang": 2, "Rendah": 3}
     priority_label = {"Tinggi": "Prioritas 1", "Sedang": "Prioritas 2", "Rendah": "Prioritas 3"}
@@ -172,6 +216,43 @@ def build_priority_table(summary_df: pd.DataFrame) -> pd.DataFrame:
 
 def load_summary_data(path: Path = SUMMARY_PATH) -> pd.DataFrame:
     return prepare_summary_data(pd.read_csv(path, dtype={"kode_kemendagri": str}))
+
+
+def load_monthly_weather(path: Path = MONTHLY_WEATHER_PATH) -> pd.DataFrame:
+    return prepare_monthly_weather_data(pd.read_csv(path, dtype={"kode_kemendagri": str}))
+
+
+def prepare_economic_risk_data(df: pd.DataFrame) -> pd.DataFrame:
+    rename = {
+        "Category": "nama_singkat",
+        "Luas Bahaya(Ha)": "luas_bahaya_ha",
+        "Jiwa Terpapar": "jiwa_terpapar",
+        "Fisik (Rp. Miliyar)": "fisik_rp_miliar",
+        "Ekonomi (Rp. Miliyar)": "ekonomi_rp_miliar",
+        "Lingkungan (Ha)": "lingkungan_ha",
+    }
+    missing = [col for col in rename if col not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required economic risk columns: {missing}")
+    prepared = df.rename(columns=rename).copy()
+    prepared["nama_clean"] = prepared["nama_singkat"].astype(str).str.upper().map(lambda x: f"KABUPATEN {x}" if not x.startswith("KOTA") else x)
+    for column in ["luas_bahaya_ha", "jiwa_terpapar", "fisik_rp_miliar", "ekonomi_rp_miliar", "lingkungan_ha"]:
+        prepared[column] = pd.to_numeric(prepared[column], errors="coerce")
+    return prepared
+
+
+def load_economic_risk(path: Path = ECONOMIC_RISK_PATH) -> pd.DataFrame:
+    return prepare_economic_risk_data(pd.read_csv(path))
+
+
+def load_reference_regions(path: Path = REFERENCE_REGIONS_PATH) -> pd.DataFrame:
+    return pd.read_csv(path, dtype={"kode_kemendagri": str})
+
+
+def build_region_coverage(summary_df: pd.DataFrame, reference_df: pd.DataFrame) -> dict:
+    covered = set(summary_df["kode_kemendagri"].map(normalize_region_code))
+    expected = set(reference_df["kode_kemendagri"].map(normalize_region_code))
+    return {"covered": len(covered & expected), "expected": len(expected), "missing": len(expected - covered)}
 
 
 def load_geojson(path: Path = GEOJSON_PATH) -> tuple[dict, str]:
@@ -229,6 +310,9 @@ def render_app() -> None:
 
     main_df = load_main_data()
     summary_df = load_summary_data()
+    monthly_weather = load_monthly_weather()
+    economic_risk = load_economic_risk()
+    reference_regions = load_reference_regions()
     geojson, geojson_key = load_geojson()
 
     years = sorted([int(year) for year in main_df["tahun"].dropna().unique()])
@@ -250,6 +334,10 @@ def render_app() -> None:
     filtered_summary = summary_df[
         summary_df["cluster_label"].astype(str).isin(selected_clusters)
     ].copy()
+    filtered_monthly = monthly_weather[
+        monthly_weather["tahun"].between(selected_years[0], selected_years[1])
+    ].copy()
+    coverage = build_region_coverage(summary_df, reference_regions)
 
     high_risk_count = int((filtered_summary["cluster_label"].astype(str) == "Tinggi").sum())
     kpis = build_kpis(filtered_main, high_risk_count)
@@ -274,6 +362,8 @@ def render_app() -> None:
         cols[3].metric("Wilayah Risiko Tinggi", f"{kpis['wilayah_risiko_tinggi']:,}")
         cols[4].metric("Rata-rata Hari Hujan Ekstrem", f"{kpis['avg_hari_hujan_ekstrem']:.2f}")
         cols[5].metric("Rata-rata Sampah", f"{kpis['avg_sampah_ton']:,.0f} ton")
+        st.metric("Cakupan Wilayah", f"{coverage['covered']}/{coverage['expected']} kab/kota", delta=f"{coverage['missing']} belum tercakup")
+        st.metric("Potensi Kerugian Ekonomi", f"Rp {economic_risk['ekonomi_rp_miliar'].sum():,.0f} miliar")
 
         cluster_counts = (
             filtered_summary["cluster_label"]
@@ -340,25 +430,45 @@ def render_app() -> None:
             .sort_values("tahun")
         )
         st.plotly_chart(
-            px.line(peak, x="tahun", y="total_hari_hujan_ekstrem", markers=True, title="Indikator Puncak Bahaya: Hari Hujan Ekstrem"),
+            px.line(peak, x="tahun", y="total_hari_hujan_ekstrem", markers=True, title="Indikator Puncak Bahaya: Hari Hujan Ekstrem Tahunan"),
+            use_container_width=True,
+        )
+        monthly_hazard = build_monthly_hazard(filtered_monthly)
+        st.plotly_chart(
+            px.bar(monthly_hazard, x="bulan_label", y="heavy_rain_days_50mm", title="Puncak Bahaya Bulanan: Total Hari Hujan Ekstrem >50mm"),
+            use_container_width=True,
+        )
+        st.plotly_chart(
+            px.line(monthly_hazard, x="bulan_label", y="max_daily_precipitation_mm", markers=True, title="Curah Hujan Harian Maksimum per Bulan"),
             use_container_width=True,
         )
 
     with tab_corr:
         st.subheader("Korelasi Sampah-Banjir-Cuaca")
         corr = build_correlation_data(filtered_main, summary_df)
-        st.plotly_chart(
-            px.scatter(
-                corr,
-                x="avg_jumlah_sampah_ton_per_tahun",
-                y="avg_jumlah_banjir",
-                size="total_terdampak",
-                color="cluster_label",
-                color_discrete_map=COLOR_MAP,
-                hover_name="nama_clean",
-                title="Volume Sampah vs Rata-rata Kejadian Banjir",
-            ),
+        quadrant = build_quadrant_data(corr)
+        fig_quadrant = px.scatter(
+            quadrant,
+            x="avg_jumlah_sampah_ton_per_tahun",
+            y="avg_jumlah_banjir",
+            size="total_terdampak",
+            color="kuadran_risiko",
+            hover_name="nama_clean",
+            title="Kuadran Risiko: Sampah vs Frekuensi Banjir",
+            labels={
+                "avg_jumlah_sampah_ton_per_tahun": "Rata-rata Sampah (ton/tahun)",
+                "avg_jumlah_banjir": "Rata-rata Kejadian Banjir",
+            },
+        )
+        fig_quadrant.add_vline(x=quadrant.attrs["median_sampah"], line_dash="dash", annotation_text="Median sampah")
+        fig_quadrant.add_hline(y=quadrant.attrs["median_banjir"], line_dash="dash", annotation_text="Median banjir")
+        st.plotly_chart(fig_quadrant, use_container_width=True)
+        st.dataframe(
+            quadrant.sort_values(["kuadran_risiko", "avg_jumlah_banjir"], ascending=[True, False])[
+                ["nama_clean", "kuadran_risiko", "avg_jumlah_sampah_ton_per_tahun", "avg_jumlah_banjir", "total_terdampak"]
+            ],
             use_container_width=True,
+            hide_index=True,
         )
         st.plotly_chart(
             px.scatter(
@@ -389,7 +499,20 @@ def render_app() -> None:
             use_container_width=True,
         )
         st.dataframe(profile, use_container_width=True, hide_index=True)
-        st.dataframe(build_priority_table(filtered_summary), use_container_width=True, hide_index=True)
+        priority = build_priority_table(filtered_summary)
+        st.dataframe(priority, use_container_width=True, hide_index=True)
+        st.markdown("**Rekomendasi cepat per audience**")
+        st.dataframe(
+            priority.assign(
+                bpbd="Prioritaskan logistik/evakuasi" ,
+                pemda="Audit drainase dan tata ruang lokal",
+                publik="Pantau peringatan hujan ekstrem dan siapkan evakuasi mandiri",
+            )[["nama_clean", "prioritas", "cluster_label", "bpbd", "pemda", "publik"]],
+            use_container_width=True,
+            hide_index=True,
+        )
+        st.markdown("**Potensi dampak ekonomi/fisik**")
+        st.dataframe(economic_risk.sort_values("ekonomi_rp_miliar", ascending=False), use_container_width=True, hide_index=True)
 
     with tab_method:
         st.subheader("Data Dictionary & Metodologi")
