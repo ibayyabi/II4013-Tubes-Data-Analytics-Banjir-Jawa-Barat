@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+.cursor/
+.gemini/
+.kiro/
+
+# Agent/tool local state
+.superpowers/
+.impeccable/
+.worktrees/
+.agents/
+
+# Local bulky archives
+*.zip
