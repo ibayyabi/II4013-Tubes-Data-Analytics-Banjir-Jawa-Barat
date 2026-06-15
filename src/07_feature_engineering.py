@@ -49,11 +49,22 @@ def main() -> None:
         "Rumah Rusak Berat": "rusak_berat",
         "Rumah Rusak Sedang": "rusak_sedang",
         "Rumah Rusak Ringan": "rusak_ringan",
-        "jumlah_sampah_tahunan": "jumlah_sampah_ton_per_hari",
     }
     df = df.rename(columns=rename)
 
-    df["is_sampah_missing"] = df["jumlah_sampah_ton_per_hari"].isna()
+    # Standardisasi sampah tahunan (2015-2017 ton/tahun, 2018-2023 ton/hari)
+    def standardisasi_sampah_tahunan(row):
+        val = row.get("jumlah_sampah_tahunan")
+        if pd.isna(val):
+            return pd.NA
+        elif int(row["tahun"]) in [2015, 2016, 2017]:
+            return val
+        else:
+            return val * 365
+
+    df["jumlah_sampah_ton_per_tahun"] = df.apply(standardisasi_sampah_tahunan, axis=1)
+    df["jumlah_sampah_ton_per_tahun"] = pd.to_numeric(df["jumlah_sampah_ton_per_tahun"], errors="coerce")
+    df["is_sampah_missing"] = df["jumlah_sampah_ton_per_tahun"].isna()
 
     df["rasio_banjir_per_hujan"] = df.apply(
         lambda r: r["jumlah_banjir"] / r["total_hujan_tahunan_mm"]
@@ -74,6 +85,23 @@ def main() -> None:
             df[col] = 0
     df["total_terdampak"] = df[DAMAGE_COLS].fillna(0).sum(axis=1)
 
+    # Indikator banjir & kategori intensitas banjir
+    df["is_banjir"] = (df["jumlah_banjir"] > 0).astype(int)
+
+    def kategori_banjir(val):
+        if pd.isna(val):
+            return "Data Null"
+        elif val == 0:
+            return "1 - Tidak Ada Banjir"
+        elif val <= 3:
+            return "2 - Frekuensi Rendah (1-3x)"
+        elif val <= 10:
+            return "3 - Frekuensi Sedang (4-10x)"
+        else:
+            return "4 - Frekuensi Tinggi (>10x)"
+
+    df["kategori_intensitas_banjir"] = df["jumlah_banjir"].apply(kategori_banjir)
+
     preferred = [
         "kode_kemendagri", "nama_clean", "nama_singkat", "tipe", "lat", "lon", "bps_kode", "tahun",
         "jumlah_banjir", "total_hujan_tahunan_mm", "rain_sum_mm", "precipitation_hours_total",
@@ -82,14 +110,33 @@ def main() -> None:
         "jumlah_kejadian_bnpb", "korban_meninggal", "korban_hilang", "korban_luka", "pengungsi",
         "rusak_berat", "rusak_sedang", "rusak_ringan", "Rumah Terendam", "Satuan Pendidikan Rusak",
         "Rumah Ibadat Rusak", "Fasilitas Pelayanan Kesehatan Rusak", "Kantor Rusak", "Jembatan Rusak",
-        "satuan", "jumlah_sampah_ton_per_hari", "is_sampah_missing", "rasio_banjir_per_hujan",
+        "satuan", "is_sampah_missing", "rasio_banjir_per_hujan",
         "kategori_hujan", "rank_banjir_di_wilayah", "total_terdampak",
+        "jumlah_sampah_tahunan", "jumlah_sampah_ton_per_tahun", "is_banjir", "kategori_intensitas_banjir",
     ]
     cols = [c for c in preferred if c in df.columns] + [c for c in df.columns if c not in preferred]
     df = df[cols].sort_values(["kode_kemendagri", "tahun"])
 
+    # Simpan ke data/clean/master_merged.csv
     df.to_csv(OUT, index=False)
     print(f"WRITE {OUT} rows={len(df)} cols={len(df.columns)}")
+
+    # Simpan ke data/clean/MASTER_MERGED_CLEANED_DASHBOARD.csv
+    clean_dashboard = CLEAN / "MASTER_MERGED_CLEANED_DASHBOARD.csv"
+    df.to_csv(clean_dashboard, index=False)
+    print(f"WRITE {clean_dashboard} rows={len(df)} cols={len(df.columns)}")
+
+    # Simpan ke data/processed/MASTER_MERGED_CLEANED_DASHBOARD.csv
+    processed_dir = Path("data/processed")
+    processed_dir.mkdir(parents=True, exist_ok=True)
+    processed_csv = processed_dir / "MASTER_MERGED_CLEANED_DASHBOARD.csv"
+    df.to_csv(processed_csv, index=False)
+    print(f"WRITE {processed_csv} rows={len(df)} cols={len(df.columns)}")
+
+    # Simpan ke data/processed/MASTER_MERGED_CLEANED_DASHBOARD.xlsx
+    processed_xlsx = processed_dir / "MASTER_MERGED_CLEANED_DASHBOARD.xlsx"
+    df.to_excel(processed_xlsx, sheet_name="MASTER_MERGED", index=False)
+    print(f"WRITE {processed_xlsx} rows={len(df)} cols={len(df.columns)}")
 
 
 if __name__ == "__main__":
