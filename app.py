@@ -6,7 +6,7 @@ import plotly.express as px
 import streamlit as st
 
 SUMMARY_PATH = Path("data/processed/cluster_wilayah_summary.csv")
-MAIN_DATA_PATH = Path("MASTER_MERGED_CLEANED_DASHBOARD.csv")
+MAIN_DATA_PATH = Path("data/processed/MASTER_MERGED_CLEANED_DASHBOARD.csv")
 GEOJSON_PATH = Path("data/reference/Jabar_By_Kab.geojson")
 MONTHLY_WEATHER_PATH = Path("data/clean/cuaca_bulanan.csv")
 ECONOMIC_RISK_PATH = Path("data/raw/grafisk-potensi-banjir-jABAR.csv")
@@ -367,7 +367,7 @@ def render_app() -> None:
     st.title("Dashboard Risiko Banjir Jawa Barat")
     st.caption(
         "Prototype BI sebelum migrasi ke Looker Studio/Tableau. Dataset utama: "
-        "MASTER_MERGED_CLEANED_DASHBOARD.csv; cluster: data/processed/."
+        "data/processed/MASTER_MERGED_CLEANED_DASHBOARD.csv; cluster: data/processed/."
     )
 
     main_df = load_main_data()
@@ -624,7 +624,7 @@ def render_app() -> None:
         st.markdown(
             """
             **Sumber utama:** OpenDataJabar, DIBI/BNPB, Open-Meteo, dan data olahan pipeline proyek.  
-            **Dataset dashboard:** `MASTER_MERGED_CLEANED_DASHBOARD.csv`.  
+            **Dataset dashboard:** `data/processed/MASTER_MERGED_CLEANED_DASHBOARD.csv`.  
             **Dataset cluster:** `data/processed/cluster_wilayah_summary.csv`, `cluster_tahunan_2015_2023.csv`, `cluster_profile.csv`.  
             **Unit spasial:** 27 Kabupaten/Kota di Jawa Barat.  
             **Catatan periode:** dokumen ENGINEER.md menargetkan 2012–2024, sedangkan model cluster tersedia untuk 2015–2023. Dashboard menampilkan periode sesuai data utama dan memberi konteks khusus untuk hasil cluster.  

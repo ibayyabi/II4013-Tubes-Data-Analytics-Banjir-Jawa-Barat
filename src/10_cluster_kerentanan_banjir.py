@@ -7,7 +7,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-INPUT_PATH = Path("MASTER_MERGED_CLEANED_DASHBOARD.csv")
+INPUT_PATH = Path("data/processed/MASTER_MERGED_CLEANED_DASHBOARD.csv")
 OUTPUT_DIR = Path("data/processed")
 YEARLY_OUTPUT = OUTPUT_DIR / "cluster_tahunan_2015_2023.csv"
 SUMMARY_OUTPUT = OUTPUT_DIR / "cluster_wilayah_summary.csv"

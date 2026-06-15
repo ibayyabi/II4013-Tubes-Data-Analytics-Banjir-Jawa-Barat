@@ -10,7 +10,7 @@ import pandas as pd
 RAW = Path("data/raw")
 CLEAN = Path("data/clean")
 REF = Path("data/reference")
-OUT = Path("flood-analytics-jabar.xlsx")
+OUT = Path("data/processed/flood-analytics-jabar.xlsx")
 
 TABS = {
     "RAW_banjir_kejadian": RAW / "banjir_kab_opendata_jabar.csv",
